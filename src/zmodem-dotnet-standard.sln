@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZModem", "ZModem\ZModem.csproj", "{F0A86785-6421-4046-8C4F-C633F49547A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZModem.Tests", "ZModem.Tests\ZModem.Tests.csproj", "{D739976B-D9BB-492B-9DAE-FA5A2304B0DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZModemConsole", "ZModemConsole\ZModemConsole.csproj", "{AAC54884-6B62-46D8-9FF6-766D526EECEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0A86785-6421-4046-8C4F-C633F49547A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A86785-6421-4046-8C4F-C633F49547A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A86785-6421-4046-8C4F-C633F49547A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A86785-6421-4046-8C4F-C633F49547A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D739976B-D9BB-492B-9DAE-FA5A2304B0DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D739976B-D9BB-492B-9DAE-FA5A2304B0DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D739976B-D9BB-492B-9DAE-FA5A2304B0DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D739976B-D9BB-492B-9DAE-FA5A2304B0DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAC54884-6B62-46D8-9FF6-766D526EECEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAC54884-6B62-46D8-9FF6-766D526EECEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAC54884-6B62-46D8-9FF6-766D526EECEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAC54884-6B62-46D8-9FF6-766D526EECEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8129DCE2-4587-4B22-AACD-5B04AFAEC1F9}
+	EndGlobalSection
+EndGlobal
