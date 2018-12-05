@@ -2,7 +2,7 @@
 
 namespace ZModem.CRC
 {
-    public static class Helper
+    public static class CRCHelper
     {
         public static int Compute16BitHeader(int type, int p0, int p1, int p2, int p3, CRC16 crcCalculator)
         {

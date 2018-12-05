@@ -1,6 +1,6 @@
 ﻿namespace ZModem.CRC
 {
-    public static class Utils
+    public static class CRCUtils
     {
         public static ushort[] GenerateLookupTable(ushort polynominal)
         {

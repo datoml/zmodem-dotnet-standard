@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using ZModem.Constants;
@@ -29,7 +28,6 @@ namespace ZModem
         /// XON is not sent after a ZFIN header to allow proper session cleanup.
         /// </summary>
         static string HexCommonHeaderEnd => $"{(char)ControlBytes.CR}{(char)ControlBytes.LF}";
-        static string HexZACKZFINHeaderEnd => $"{(char)ControlBytes.CR}{(char)ControlBytes.LF}";
 
         static string Bin16BitHeader => $"{(char)ControlBytes.ZPAD}{(char)ControlBytes.ZDLE}{(char)ControlBytes.ZBIN}";
 
@@ -56,39 +54,10 @@ namespace ZModem
             sb.Append(p2.ToString("x2"));
             sb.Append(p3.ToString("x2"));
 
-            var crc = Helper.Compute16BitHeader((int)type, p0, p1, p2, p3, crcCalculator);
+            var crc = CRCHelper.Compute16BitHeader((int)type, p0, p1, p2, p3, crcCalculator);
 
             sb.Append(crc.ToString("x4"));
             sb.Append(HexCommonHeaderEnd);
-
-            var command = sb.ToString();
-
-            return command;
-        }
-
-        /// <summary>
-        /// Build Hex frame for ZACK and ZFIN
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="p0"></param>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <param name="p3"></param>
-        /// <returns></returns>
-        public static string BuildZACKZFINHexHeader(HeaderType type, int p0, int p1, int p2, int p3, CRC16 crcCalculator)
-        {
-            var sb = new StringBuilder();
-            sb.Append(HexHeader);
-            sb.Append(((int)type).ToString("x2"));
-            sb.Append(p0.ToString("x2"));
-            sb.Append(p1.ToString("x2"));
-            sb.Append(p2.ToString("x2"));
-            sb.Append(p3.ToString("x2"));
-
-            var crc = Helper.Compute16BitHeader((int)type, p0, p1, p2, p3, crcCalculator);
-
-            sb.Append(crc.ToString("x4"));
-            sb.Append(HexZACKZFINHeaderEnd);
 
             var command = sb.ToString();
 
@@ -119,7 +88,7 @@ namespace ZModem
             sb.Append(((char)p2).ToString());
             sb.Append(((char)p3).ToString());
 
-            var crc = Helper.Compute16BitHeader((int)type, p0, p1, p2, p3, crcCalculator);
+            var crc = CRCHelper.Compute16BitHeader((int)type, p0, p1, p2, p3, crcCalculator);
             int crc1 = (crc & 0xff00) >> 8;
             int crc2 = crc & 0xff;
 
@@ -162,14 +131,10 @@ namespace ZModem
             b[3] = Convert.ToByte(f1);
             b[4] = Convert.ToByte(f0);
 
-            var crc = Helper.Compute16BitHeader((int)type, (int)f3, (int)f2, (int)f1, (int)f0, crcCalculator);
-            var crcOld = crcCalculator.ComputeHash(b);
+            var crc = CRCHelper.Compute16BitHeaderAsArray((int)type, (int)f3, (int)f2, (int)f1, (int)f0, crcCalculator);
 
-            var crc1crcOld = crcOld[1];
-            var crc2crcOld = crcOld[0];
-
-            int crc1 = (crc & 0xff00) >> 8;
-            int crc2 = crc & 0xff;
+            int crc1 = crc[1];
+            int crc2 = crc[0];
 
             sb.Append(((char)crc1).ToString());
             sb.Append(((char)crc2).ToString());
@@ -205,7 +170,7 @@ namespace ZModem
             sb.Append(((char)f1).ToString());
             sb.Append(((char)f0).ToString());
 
-            var crc = Helper.Compute32BitHeaderAsArray((int)type, (int)f3, (int)f2, (int)f1, (int)f0, crcCalculator);
+            var crc = CRCHelper.Compute32BitHeaderAsArray((int)type, (int)f3, (int)f2, (int)f1, (int)f0, crcCalculator);
 
             foreach (char c in crc)
             {
@@ -244,12 +209,10 @@ namespace ZModem
             b[3] = Convert.ToByte(p2);
             b[4] = Convert.ToByte(p3);
 
-            var crc = Helper.Compute16BitHeader((int)type, p0, p1, p2, p3, crcCalculator);
+            var crc = CRCHelper.Compute16BitHeaderAsArray((int)type, p0, p1, p2, p3, crcCalculator);
 
-            var crcOld = crcCalculator.ComputeHash(b);
-
-            var crc1 = crcOld[1];
-            var crc2 = crcOld[0];
+            var crc1 = crc[1];
+            var crc2 = crc[0];
 
             sb.Append(((char)crc1).ToString());
             sb.Append(((char)crc2).ToString());
@@ -279,7 +242,7 @@ namespace ZModem
             sb.Append(((char)p2).ToString());
             sb.Append(((char)p3).ToString());
 
-            var crc = Helper.Compute32BitHeaderAsArray((int)type, p0, p1, p2, p3, crcCalculator);
+            var crc = CRCHelper.Compute32BitHeaderAsArray((int)type, p0, p1, p2, p3, crcCalculator);
 
             foreach (char c in crc)
             {
@@ -298,83 +261,6 @@ namespace ZModem
             return result;
         }
 
-        /// <summary>
-        /// Get control sequence based on data length and chunk size.
-        /// </summary>
-        /// <param name="length"></param>
-        /// <param name="chunkSize"></param>
-        /// <returns></returns>
-        public static ZDLESequence GetControlSequenceFor(int length, int chunkSize)
-        {
-            var result = length < chunkSize ? ZDLESequence.ZCRCW : ZDLESequence.ZCRCG;
-            return result;
-        }
-
-        /// <summary>
-        /// Returns response from receiver.
-        /// </summary>
-        /// <param name="port"></param>
-        /// <param name="withDebug"></param>
-        /// <returns></returns>
-        public static string GetResponseFromReceiverAndClear(SerialPort port, bool withDebug = false)
-        {
-            // Create queue
-            var buffer = new Queue<byte>();
-
-            // Read from serial port
-            while (port.BytesToRead > 0)
-            {
-                buffer.Enqueue((byte)port.ReadByte());
-            }
-
-            // Create ASCII encoder
-            var encoder = new ASCIIEncoding();
-
-            var result = Utils.RemoveControlCharacters(
-                encoder.GetString(
-                    buffer.ToArray()
-                ));
-
-            // Clear buffer
-            buffer.Clear();
-            buffer = null;
-
-            if (withDebug)
-            {
-                Console.WriteLine(result);
-            }
-
-            // Return result
-            return result;
-        }
-
-        /// <summary>
-        /// Removes control characters from an input string.
-        /// </summary>
-        /// <param name="input">String message</param>
-        /// <returns>Input without control characters</returns>
-        public static string RemoveControlCharacters(string input)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-            {
-                return null;
-            }
-
-            var result = new StringBuilder();
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                var ch = input[i];
-                if (!char.IsControl(ch))
-                {
-                    result.Append(ch);
-                }
-            }
-            return result
-                ?.ToString()
-                ?.Replace("?", "");
-        }
-
         public static void GenerateZModemFileOffset(int? offset, out int p0, out int p1, out int p2, out int p3)
         {
             var parsedOffset = offset.HasValue ? offset.Value : 0;
@@ -385,7 +271,7 @@ namespace ZModem
             p3 = (parsedOffset >> 24) & 0xff;
         }
 
-        public static int GetInt32ZModemOffset(int p0, int p1, int p2, int p3)
+        public static int GetIntFromZModemOffset(int p0, int p1, int p2, int p3)
         {
             var intArray = new int[]
             {
@@ -398,23 +284,9 @@ namespace ZModem
             return intArray.Sum();
         }
 
-        public static void EscapeCRC(ref Queue<byte> queue, byte input)
-        {
-            var result = ZDLEEncoder.EscapeControlCharacters(new byte[] { input });
-
-            if (result.Length == 2)
-            {
-                queue.Enqueue(result[0]);
-                queue.Enqueue(result[1]);
-            }
-            else
-            {
-                queue.Enqueue(input);
-            }
-        }
-
         private static double oldVal = 0.0;
 
+        [ExcludeFromCodeCoverage]
         public static void WriteProgression(double val)
         {
             if (oldVal >= val)

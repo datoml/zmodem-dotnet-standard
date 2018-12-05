@@ -6,11 +6,24 @@ namespace ZModem
 {
     public class ResponseHeader
     {
-        public ResponseHeader(byte[] buffer, int readCount)
+        public ResponseHeader(byte[] buffer)
         {
             try
             {
-                if (readCount < 20 || readCount > 21)
+                // Expected buffer length is 21.
+                // In some cases the buffer length is longer than expected.
+                // So we slice the buffer to get the response we want.
+                if (buffer.Length > 21)
+                {
+                    var offset = buffer.Length - 21;
+                    buffer = buffer
+                        .Skip(offset)
+                        .Take(21)
+                        .ToArray();
+                }
+
+
+                if (buffer.Length < 20 || buffer.Length > 21)
                 {
                     Console.WriteLine(@"Wrong header ¯\_(ツ)_/¯");
                     return;
@@ -40,7 +53,7 @@ namespace ZModem
 
                 if (ZHeader == HeaderType.ZRPOS || ZHeader == HeaderType.ZACK)
                 {
-                    RequestedOffset = Utils.GetInt32ZModemOffset(ZP0, ZP1, ZP2, ZP3);
+                    RequestedOffset = Utils.GetIntFromZModemOffset(ZP0, ZP1, ZP2, ZP3);
                 }
             }
             catch (Exception)
@@ -57,7 +70,7 @@ namespace ZModem
 
         public ControlBytes FrameIndicator { get; private set; }
 
-        public HeaderType ZHeader { get; private set; }
+        public HeaderType ZHeader { get; private set; } = HeaderType.None;
 
         public int ZP0 { get; private set; }
 

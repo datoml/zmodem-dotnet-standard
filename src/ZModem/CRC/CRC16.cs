@@ -16,7 +16,7 @@ namespace ZModem.CRC
         public CRC16()
         {
             // Generate lookup table
-            LookupTable = Utils.GenerateLookupTable(Polynominal);
+            LookupTable = CRCUtils.GenerateLookupTable(Polynominal);
 
             // Initialize all required values
             Initialize();

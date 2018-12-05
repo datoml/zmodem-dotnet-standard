@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Xunit;
 
 namespace ZModem.Tests
@@ -64,7 +63,7 @@ namespace ZModem.Tests
         [InlineData(0x1021)]
         public void GenerateUShortLookupTable(ushort polynominal)
         {
-            var lookupTable = CRC.Utils.GenerateLookupTable(polynominal);
+            var lookupTable = CRC.CRCUtils.GenerateLookupTable(polynominal);
 
             var result = lookupTable.Sum(x => x);
             var expectedResult = CRC16LookupTable.Sum(x => x);
@@ -76,7 +75,7 @@ namespace ZModem.Tests
         [InlineData(0x04C11DB7)]
         public void GenerateUIntLookupTable(uint polynominal)
         {
-            var lookupTable = CRC.Utils.GenerateLookupTable(polynominal);
+            var lookupTable = CRC.CRCUtils.GenerateLookupTable(polynominal);
 
             var result = lookupTable.Sum(x => x);
             var expectedResult = CRC32LookupTable.Sum(x => x);
@@ -88,7 +87,7 @@ namespace ZModem.Tests
         [InlineData(0x01, 0x80)]
         public void ReverseGivenByteValues(byte data, byte expectedResult)
         {
-            var result = CRC.Utils.Reverse(data);
+            var result = CRC.CRCUtils.Reverse(data);
 
             Assert.True(expectedResult.Equals(result));
         }
@@ -97,7 +96,7 @@ namespace ZModem.Tests
         [InlineData(0x0001, 0x8000)]
         public void ReverseGivenUshortValues(ushort data, ushort expectedResult)
         {
-            var result = CRC.Utils.Reverse(data);
+            var result = CRC.CRCUtils.Reverse(data);
 
             Assert.True(expectedResult.Equals(result));
         }
@@ -106,7 +105,7 @@ namespace ZModem.Tests
         [InlineData(0x00000001, 0x80000000)]
         public void ReverseGivenUintValues(uint data, uint expectedResult)
         {
-            var result = CRC.Utils.Reverse(data);
+            var result = CRC.CRCUtils.Reverse(data);
 
             Assert.True(expectedResult.Equals(result));
         }

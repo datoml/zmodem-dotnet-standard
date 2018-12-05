@@ -27,7 +27,7 @@ namespace ZModemConsole
                 try
                 {
                     var portName = portNames[portID];
-                    var boudRate = 115200;
+                    var boudRate = 9600;
                     var parity = Parity.None;
                     var dataBits = 8;
                     var stopBits = StopBits.One;

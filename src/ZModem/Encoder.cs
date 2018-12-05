@@ -9,14 +9,14 @@ namespace ZModem
         /// <summary>
         /// Zmodem software escapes ZDLE (0x18), 0x10, 0x90, 0x11, 0x91, 0x13, and 0x93. 
         /// </summary>
-        public static readonly byte[] EscapeCharacters = new byte[] {
+        private static readonly byte[] EscapeCharacters = new byte[] {
             (byte)ControlBytes.ZDLE,
             (byte)ControlBytes.XON,
             (byte)ControlBytes.XOFF,
             (byte)ControlBytes.XON | 0x80,
             (byte)ControlBytes.XOFF | 0x80,
-            0x10,
-            0x90,
+            (byte)ControlBytes.DLE,
+            (byte)ControlBytes.CTRL0x90,
             };
 
         /// <summary>
@@ -24,8 +24,14 @@ namespace ZModem
         /// protect the Telenet command escape CR-@-CR. The receiver ignores
         /// 0x11, 0x91, 0x13, and 0x93 characters in the data stream. 
         /// </summary>
-        public static readonly byte[] SpeicalEscapeCharacterTrigger = new byte[] { 0x40, 0xc0 };
-        public static readonly byte[] SpecialEscapeCharacters = new byte[] { 0x0d, 0x8d };
+        private static readonly byte[] SpeicalEscapeCharacterTrigger = new byte[] {
+            (byte)ControlBytes.ATSymbol,
+            (byte)ControlBytes.À
+        };
+        private static readonly byte[] SpecialEscapeCharacters = new byte[] {
+            (byte)ControlBytes.CR,
+            (byte)ControlBytes.RI
+        };
 
 
         public static byte[] EscapeControlCharacters(byte[] src)

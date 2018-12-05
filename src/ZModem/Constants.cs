@@ -98,7 +98,8 @@ namespace ZModem.Constants
         /// <summary>
         /// Output to standard error, data follows
         /// </summary>
-        ZESTERR = 19
+        ZESTERR = 19,
+        None = -1,
     };
 
     /// <summary>
@@ -140,6 +141,11 @@ namespace ZModem.Constants
         /// LF character
         /// </summary>
         LF = 0x0a,
+        DLE = 0x10,
+        CTRL0x90 = 0x90,
+        RI = 0x8d,
+        ATSymbol = 0x40,
+        À = 0xc0
     }
 
     /// <summary>

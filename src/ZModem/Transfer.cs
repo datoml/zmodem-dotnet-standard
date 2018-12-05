@@ -1,20 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using ZModem.Constants;
 using ZModem.CRC;
 
 namespace ZModem
 {
+    [ExcludeFromCodeCoverage]
     public class Transfer
     {
-        private const int TaskTimeout = 2;
-        private const int ChunkSize = 4096;
         private static readonly object PadLock = new object();
+
+        private const int TaskTimeout = 4;
+        private const int ChunkSize = 2048;
+        private const int ReadRetryAttempts = 3;
+        private const int ReadRetryAttemptTimeout = 100;
+
         private readonly SerialPort SerialPort;
         private readonly bool WithDebug;
 
@@ -70,6 +77,8 @@ namespace ZModem
         /// <returns></returns>
         private bool Upload(string filename, byte[] data, DateTimeOffset lastWriteTimeUtc)
         {
+            var hasUploadedSuccessfully = default(bool);
+
             var sw = new Stopwatch();
             sw.Start();
 
@@ -80,26 +89,28 @@ namespace ZModem
             CloseSerialPortIfOpen();
 
             // Initiate session
-            SendZRQINITFrame(crc16);
+            var hasExecutedCommandSuccessfully = SendZRQINITFrame(crc16);
 
-            // Send ZFILE header with filename.
-            var zfileFrameResponse = SendZFILEHeaderCommand(filename, data.Length, lastWriteTimeUtc, crc32);
+            if (hasExecutedCommandSuccessfully)
+            {
+                // Send ZFILE header with filename.
+                hasUploadedSuccessfully = hasExecutedCommandSuccessfully = SendZFILEHeaderCommand(filename, data.Length, lastWriteTimeUtc, crc32); 
+            }
 
-            if (zfileFrameResponse?.ZHeader != HeaderType.ZSKIP)
+            if (hasExecutedCommandSuccessfully)
             {
                 // Send binary data wrapped into ZDATA header.
-                SendZDATAPackets(data, zfileFrameResponse?.RequestedOffset, ChunkSize, crc32);
-            }
-            else
-            {
-                Console.WriteLine("Receiver got that file already...skipping.");
+                SendZDATAPackets(data, 0, ChunkSize, crc32); 
             }
 
-            // Send EOF command
-            SendEOFCommand(data.Length, crc16);
+            if (hasExecutedCommandSuccessfully)
+            {
+                // Send EOF command
+                hasUploadedSuccessfully = hasExecutedCommandSuccessfully = SendEOFCommand(data.Length, crc16); 
+            }
 
             // Send ZFIN to finish the session
-            SendFinishSession(crc16);
+            hasExecutedCommandSuccessfully = SendFinishSession(crc16);
 
             // Send over and out
             SendCommand("OO");
@@ -107,7 +118,7 @@ namespace ZModem
             sw.Stop();
             Console.WriteLine($"Took: {sw.ElapsedMilliseconds}ms");
 
-            return true;
+            return hasUploadedSuccessfully;
         }
 
         /// <summary>
@@ -117,14 +128,21 @@ namespace ZModem
         /// 
         /// ZF0 contains ZCOMMAND if the program is attempting to send a command, 0 otherwise. 
         /// </summary>
-        private void SendZRQINITFrame(CRC16 crcCalculator)
+        private bool SendZRQINITFrame(CRC16 crcCalculator)
         {
+            var result = default(bool);
+
             var zrqinitFrame = Utils.BuildCommonHexHeader(HeaderType.ZRQINIT, 0, 0, 0, 0, crcCalculator);
 
             // Send command
-            var response = SendCommand(zrqinitFrame);
+            var response = SendCommand(zrqinitFrame, true, HeaderType.ZRINIT);
 
-            if (response?.ZHeader == HeaderType.ZCHALLENGE)
+            // We expect ZRINIT as response
+            if (response?.ZHeader == HeaderType.ZRINIT)
+            {
+                result = true;
+            }
+            else
             {
                 // TODO
                 /*
@@ -145,6 +163,8 @@ namespace ZModem
                  * The receiver sends a ZACK header in response, containing 0
                  */
             }
+
+            return result;
         }
 
         /// <summary>
@@ -154,8 +174,10 @@ namespace ZModem
         /// </summary>
         /// <param name="fileInfo"></param>
         /// <param name="crcCalculator"></param>
-        private ResponseHeader SendZFILEHeaderCommand(string filename, int length, DateTimeOffset lastWriteTimeUtc, CRC32 crcCalculator)
+        private bool SendZFILEHeaderCommand(string filename, int length, DateTimeOffset lastWriteTimeUtc, CRC32 crcCalculator)
         {
+            var result = default(bool);
+
             var isExtended = true;
 
             var zFileHeader = Utils.Build32BitBinHeader(
@@ -173,7 +195,7 @@ namespace ZModem
                 zFileHeaderQueue.Enqueue((byte)c);
             }
 
-            // Send ZFILE header first
+            // Send ZFILE header first - No response
             SendCommand(zFileHeaderQueue.ToArray());
 
             var dataQueue = new Queue<byte>();
@@ -224,7 +246,13 @@ namespace ZModem
                 .Concat(ZDLEEncoder.EscapeControlCharacters(crc))
                 .ToArray();
 
-            var response = SendCommand(encodedCRC);
+            var response = SendCommand(encodedCRC, true, HeaderType.ZRPOS);
+
+            // We expect ZRPOS
+            if (response?.ZHeader == HeaderType.ZRPOS)
+            {
+                result = true;
+            }
 
             /*
              * The receiver may respond with a ZSKIP header, which makes the sender
@@ -253,7 +281,7 @@ namespace ZModem
                  */
             }
 
-            return response;
+            return result;
         }
 
         private void SendZDATAPackets(byte[] src, int? offset, int chunkSize, CRC32 crcCalculator)
@@ -286,7 +314,7 @@ namespace ZModem
                      * overflow.  The sending program sends a ZCRCW data subpacket and waits
                      * for a ZACK header before sending the next segment of the file. 
                      */
-                    var bufferLength = Utils.GetInt32ZModemOffset(
+                    var bufferLength = Utils.GetIntFromZModemOffset(
                         zdataResponse.ZP0,
                         zdataResponse.ZP1,
                         zdataResponse.ZP2,
@@ -301,7 +329,7 @@ namespace ZModem
 
                 var dataSubpacketFrame = GenerateDataSubpacketFrame(crcCalculator, src, i, chunkSize);
 
-                zdataResponse = SendCommand(dataSubpacketFrame);
+                zdataResponse = SendCommand(dataSubpacketFrame, true);
 
                 var progression = (i / (double)src.Length);
                 Utils.WriteProgression(progression);
@@ -328,7 +356,7 @@ namespace ZModem
                     ? ZDLESequence.ZCRCG
                     : ZDLESequence.ZCRCE;
 
-          
+
             // Create data queue for the sliced data.
             var queue = new Queue<byte>(encodedDataSlice);
 
@@ -372,8 +400,10 @@ namespace ZModem
             return zdataHeaderQueue.ToArray();
         }
 
-        private void SendEOFCommand(int dataLength, CRC16 crcCalculator)
+        private bool SendEOFCommand(int dataLength, CRC16 crcCalculator)
         {
+            var result = default(bool);
+
             var arg0 = dataLength & 0xff;
             var arg1 = (dataLength >> 8) & 0xff;
             var arg2 = (dataLength >> 16) & 0xff;
@@ -382,15 +412,31 @@ namespace ZModem
             var zeofCommand = Utils.BuildCommonHexHeader(HeaderType.ZEOF, arg0, arg1, arg2, arg3, crcCalculator);
 
             // Send command
-            SendCommand(zeofCommand);
+            var response = SendCommand(zeofCommand, true, HeaderType.ZRINIT);
+
+            if (response?.ZHeader == HeaderType.ZRINIT)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
-        private void SendFinishSession(CRC16 crcCalculator)
+        private bool SendFinishSession(CRC16 crcCalculator)
         {
+            var result = default(bool);
+
             var zfinCommand = Utils.BuildCommonHexHeader(HeaderType.ZFIN, 0, 0, 0, 0, crcCalculator);
 
             // Send command
-            SendCommand(zfinCommand);
+            var response = SendCommand(zfinCommand, true, HeaderType.ZFIN);
+
+            if (response?.ZHeader == HeaderType.ZFIN)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -422,30 +468,13 @@ namespace ZModem
         /// <summary>
         /// Send HEX string command
         /// </summary>
-        /// <param name="Command">HEX string</param>
+        /// <param name="command">HEX string</param>
         /// <returns></returns>
-        ResponseHeader SendCommand(string Command)
+        ResponseHeader SendCommand(string command, bool withResponse = false, HeaderType expectedResponse = HeaderType.None)
         {
-            lock (PadLock)
-            {
-                PrepareSerialPort();
-                SerialPort.Write(Command);
-            }
+            var commandData = Encoding.ASCII.GetBytes(command);
 
-            Thread.Sleep(TaskTimeout);
-
-            ////if (SerialPort.BytesToRead > 0)
-            ////{
-            ////    var buffer = new byte[SerialPort.BytesToRead];
-            ////    var count = SerialPort.Read(buffer, 0, SerialPort.BytesToRead);
-            ////    var result = new ResponseHeader(buffer, count);
-
-            ////    Console.WriteLine($"{result.FullHeaderHuman}");
-
-            ////    return result;
-            ////}
-
-            return null;
+            return SendCommand(commandData, withResponse, expectedResponse);
         }
 
         /// <summary>
@@ -453,28 +482,60 @@ namespace ZModem
         /// </summary>
         /// <param name="Command">Byte array</param>
         /// <returns></returns>
-        ResponseHeader SendCommand(byte[] Command)
+        ResponseHeader SendCommand(byte[] Command, bool withResponse = false, HeaderType expectedResponse = HeaderType.None)
         {
-            lock (PadLock)
+            ResponseHeader response = default(ResponseHeader);
+
+            for (int i = 0; i < ReadRetryAttempts; i++)
             {
-                PrepareSerialPort();
-                SerialPort.Write(Command, 0, Command.Length);
+                // Lock and send command
+                lock (PadLock)
+                {
+                    PrepareSerialPort();
+                    SerialPort.Write(Command, 0, Command.Length);
+                }
+
+                // Delay a bit
+                Thread.Sleep(TaskTimeout);
+
+                if (!withResponse)
+                {
+                    break;
+                }
+
+                if (SerialPort.BytesToRead > 0)
+                {
+                    var buffer = new byte[SerialPort.BytesToRead];
+
+                    lock (PadLock)
+                    {
+                        SerialPort.Read(buffer, 0, SerialPort.BytesToRead);
+                    }
+
+                    response = new ResponseHeader(buffer);
+
+                    if (response?.ZHeader == expectedResponse)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        // Sleep n ms and try again
+                        Thread.Sleep(ReadRetryAttemptTimeout);
+                    }
+                }
+                else if (expectedResponse == HeaderType.None)
+                {
+                    break;
+                }
+                else
+                {
+                    // Sleep n ms and try again
+                    Thread.Sleep(ReadRetryAttemptTimeout);
+                }
             }
 
-            Thread.Sleep(TaskTimeout);
-
-            ////if (SerialPort.BytesToRead > 0)
-            ////{
-            ////    var buffer = new byte[SerialPort.BytesToRead];
-            ////    var count = SerialPort.Read(buffer, 0, SerialPort.BytesToRead);
-            ////    var result = new ResponseHeader(buffer, count);
-
-            ////    Console.WriteLine($"{result.FullHeaderHuman}");
-
-            ////    return result;
-            ////}
-
-            return null;
+            return response;
         }
     }
 }

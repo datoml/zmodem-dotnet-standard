@@ -1,0 +1,1022 @@
+{
+  "ZModem.dll": {
+    "/c/git/zmodem-dotnet-standard/src/ZModem/Encoder.cs": {
+      "ZModem.ZDLEEncoder": {
+        "System.Byte[] ZModem.ZDLEEncoder::EscapeControlCharacters(System.Byte[])": {
+          "Lines": {
+            "38": 133,
+            "39": 133,
+            "41": 948,
+            "42": 340,
+            "43": 341,
+            "45": 341,
+            "46": 1,
+            "47": 1,
+            "48": 1,
+            "49": 1,
+            "50": 340,
+            "51": 8,
+            "52": 8,
+            "54": 8,
+            "55": 8,
+            "56": 8,
+            "57": 332,
+            "58": 5,
+            "59": 5,
+            "60": 5,
+            "61": 5,
+            "62": 5,
+            "64": 327,
+            "65": 327,
+            "66": 327,
+            "67": 341,
+            "69": 133,
+            "70": 133
+          },
+          "Branches": [
+            {
+              "Line": 41,
+              "Offset": 196,
+              "EndOffset": 14,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 341
+            },
+            {
+              "Line": 45,
+              "Offset": 26,
+              "EndOffset": 28,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 45,
+              "Offset": 26,
+              "EndOffset": 59,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 340
+            },
+            {
+              "Line": 50,
+              "Offset": 74,
+              "EndOffset": 76,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 8
+            },
+            {
+              "Line": 50,
+              "Offset": 74,
+              "EndOffset": 115,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 332
+            },
+            {
+              "Line": 57,
+              "Offset": 130,
+              "EndOffset": 132,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 5
+            },
+            {
+              "Line": 57,
+              "Offset": 130,
+              "EndOffset": 171,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 327
+            },
+            {
+              "Line": 41,
+              "Offset": 196,
+              "EndOffset": 201,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 133
+            }
+          ]
+        },
+        "System.Void ZModem.ZDLEEncoder::.cctor()": {
+          "Lines": {
+            "12": 1,
+            "13": 1,
+            "14": 1,
+            "15": 1,
+            "16": 1,
+            "17": 1,
+            "18": 1,
+            "19": 1,
+            "20": 1,
+            "27": 1,
+            "28": 1,
+            "29": 1,
+            "30": 1,
+            "31": 1,
+            "32": 1,
+            "33": 1,
+            "34": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/c/git/zmodem-dotnet-standard/src/ZModem/ResponseHeader.cs": {
+      "ZModem.ResponseHeader": {
+        "System.Char[] ZModem.ResponseHeader::get_BinaryHeader()": {
+          "Lines": {
+            "52": 1
+          },
+          "Branches": []
+        },
+        "System.String ZModem.ResponseHeader::get_BinaryHeaderHuman()": {
+          "Lines": {
+            "54": 1
+          },
+          "Branches": []
+        },
+        "System.String ZModem.ResponseHeader::get_FullHeaderHuman()": {
+          "Lines": {
+            "56": 1
+          },
+          "Branches": []
+        },
+        "ZModem.Constants.ControlBytes ZModem.ResponseHeader::get_FrameIndicator()": {
+          "Lines": {
+            "58": 1
+          },
+          "Branches": []
+        },
+        "ZModem.Constants.HeaderType ZModem.ResponseHeader::get_ZHeader()": {
+          "Lines": {
+            "60": 1
+          },
+          "Branches": []
+        },
+        "System.Int32 ZModem.ResponseHeader::get_ZP0()": {
+          "Lines": {
+            "62": 1
+          },
+          "Branches": []
+        },
+        "System.Int32 ZModem.ResponseHeader::get_ZP1()": {
+          "Lines": {
+            "64": 1
+          },
+          "Branches": []
+        },
+        "System.Int32 ZModem.ResponseHeader::get_ZP2()": {
+          "Lines": {
+            "66": 1
+          },
+          "Branches": []
+        },
+        "System.Int32 ZModem.ResponseHeader::get_ZP3()": {
+          "Lines": {
+            "68": 1
+          },
+          "Branches": []
+        },
+        "System.Int32 ZModem.ResponseHeader::get_RequestedOffset()": {
+          "Lines": {
+            "70": 1
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.ResponseHeader::.ctor(System.Byte[],System.Int32)": {
+          "Lines": {
+            "9": 1,
+            "10": 1,
+            "12": 1,
+            "13": 1,
+            "14": 1,
+            "15": 1,
+            "16": 1,
+            "20": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "28": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "49": 0,
+            "50": 1
+          },
+          "Branches": [
+            {
+              "Line": 13,
+              "Offset": 12,
+              "EndOffset": 14,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 13,
+              "Offset": 12,
+              "EndOffset": 21,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 13,
+              "Offset": 24,
+              "EndOffset": 26,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 13,
+              "Offset": 24,
+              "EndOffset": 43,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 20,
+              "Offset": 50,
+              "EndOffset": 52,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 20,
+              "Offset": 50,
+              "EndOffset": 75,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 41,
+              "Offset": 276,
+              "EndOffset": 278,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 41,
+              "Offset": 276,
+              "EndOffset": 289,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 41,
+              "Offset": 294,
+              "EndOffset": 296,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 41,
+              "Offset": 294,
+              "EndOffset": 334,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/c/git/zmodem-dotnet-standard/src/ZModem/Utils.cs": {
+      "ZModem.Utils": {
+        "System.String ZModem.Utils::get_HexHeader()": {
+          "Lines": {
+            "20": 20
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::get_HexCommonHeaderEnd()": {
+          "Lines": {
+            "32": 20
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::get_Bin16BitHeader()": {
+          "Lines": {
+            "34": 60
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::get_Bin32BitHeader()": {
+          "Lines": {
+            "36": 40
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::BuildCommonHexHeader(ZModem.Constants.HeaderType,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC16)": {
+          "Lines": {
+            "50": 20,
+            "51": 20,
+            "52": 20,
+            "53": 20,
+            "54": 20,
+            "55": 20,
+            "56": 20,
+            "57": 20,
+            "59": 20,
+            "61": 20,
+            "62": 20,
+            "64": 20,
+            "66": 20,
+            "67": 20
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::Build16BitBinHeader(ZModem.Constants.HeaderType,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC16)": {
+          "Lines": {
+            "84": 20,
+            "85": 20,
+            "86": 20,
+            "87": 20,
+            "88": 20,
+            "89": 20,
+            "90": 20,
+            "91": 20,
+            "93": 20,
+            "94": 20,
+            "95": 20,
+            "97": 20,
+            "98": 20,
+            "100": 20,
+            "102": 20,
+            "103": 20
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::Build16BitBinHeader(ZModem.Constants.HeaderType,ZModem.Constants.ZFILEConversionOption,ZModem.Constants.ZFILEManagementOption,ZModem.Constants.ZFILETransportOption,ZModem.Constants.ZFILEExtendedOptions,ZModem.CRC.CRC16)": {
+          "Lines": {
+            "120": 20,
+            "121": 20,
+            "122": 20,
+            "123": 20,
+            "124": 20,
+            "125": 20,
+            "126": 20,
+            "127": 20,
+            "129": 20,
+            "130": 20,
+            "131": 20,
+            "132": 20,
+            "133": 20,
+            "134": 20,
+            "136": 20,
+            "138": 20,
+            "139": 20,
+            "141": 20,
+            "142": 20,
+            "144": 20,
+            "146": 20,
+            "147": 20
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::Build32BitBinHeader(ZModem.Constants.HeaderType,ZModem.Constants.ZFILEConversionOption,ZModem.Constants.ZFILEManagementOption,ZModem.Constants.ZFILETransportOption,ZModem.Constants.ZFILEExtendedOptions,ZModem.CRC.CRC32)": {
+          "Lines": {
+            "166": 20,
+            "167": 20,
+            "168": 20,
+            "169": 20,
+            "170": 20,
+            "171": 20,
+            "172": 20,
+            "173": 20,
+            "175": 20,
+            "177": 220,
+            "178": 80,
+            "179": 80,
+            "180": 80,
+            "182": 20,
+            "184": 20,
+            "185": 20
+          },
+          "Branches": [
+            {
+              "Line": 177,
+              "Offset": 158,
+              "EndOffset": 128,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 80
+            },
+            {
+              "Line": 177,
+              "Offset": 158,
+              "EndOffset": 160,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 20
+            }
+          ]
+        },
+        "System.String ZModem.Utils::Build16BitDataHeader(ZModem.Constants.HeaderType,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC16)": {
+          "Lines": {
+            "197": 20,
+            "198": 20,
+            "199": 20,
+            "200": 20,
+            "201": 20,
+            "202": 20,
+            "203": 20,
+            "204": 20,
+            "205": 20,
+            "207": 20,
+            "208": 20,
+            "209": 20,
+            "210": 20,
+            "211": 20,
+            "212": 20,
+            "214": 20,
+            "216": 20,
+            "217": 20,
+            "219": 20,
+            "220": 20,
+            "222": 20,
+            "224": 20,
+            "225": 20
+          },
+          "Branches": []
+        },
+        "System.String ZModem.Utils::Build32BitDataHeader(ZModem.Constants.HeaderType,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC32)": {
+          "Lines": {
+            "237": 20,
+            "238": 20,
+            "239": 20,
+            "240": 20,
+            "241": 20,
+            "242": 20,
+            "243": 20,
+            "244": 20,
+            "245": 20,
+            "247": 20,
+            "249": 224,
+            "250": 82,
+            "251": 82,
+            "252": 82,
+            "254": 20,
+            "256": 20,
+            "257": 20
+          },
+          "Branches": [
+            {
+              "Line": 249,
+              "Offset": 159,
+              "EndOffset": 129,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 82
+            },
+            {
+              "Line": 249,
+              "Offset": 159,
+              "EndOffset": 161,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 20
+            }
+          ]
+        },
+        "System.Int32 ZModem.Utils::GetIntFromHex(System.Char,System.Char)": {
+          "Lines": {
+            "260": 3,
+            "261": 3,
+            "262": 3,
+            "263": 3,
+            "264": 3
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.Utils::GenerateZModemFileOffset(System.Nullable`1<System.Int32>,System.Int32&,System.Int32&,System.Int32&,System.Int32&)": {
+          "Lines": {
+            "267": 7,
+            "268": 7,
+            "270": 7,
+            "271": 7,
+            "272": 7,
+            "273": 7,
+            "274": 7
+          },
+          "Branches": [
+            {
+              "Line": 268,
+              "Offset": 8,
+              "EndOffset": 10,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 268,
+              "Offset": 8,
+              "EndOffset": 13,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 7
+            }
+          ]
+        },
+        "System.Int32 ZModem.Utils::GetIntFromZModemOffset(System.Int32,System.Int32,System.Int32,System.Int32)": {
+          "Lines": {
+            "277": 7,
+            "278": 7,
+            "279": 7,
+            "280": 7,
+            "281": 7,
+            "282": 7,
+            "283": 7,
+            "284": 7,
+            "286": 7,
+            "287": 7
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.Utils::.cctor()": {
+          "Lines": {
+            "289": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/c/git/zmodem-dotnet-standard/src/ZModem/CRC/CRC16.cs": {
+      "ZModem.CRC.CRC16": {
+        "System.Void ZModem.CRC.CRC16::Initialize()": {
+          "Lines": {
+            "26": 91,
+            "28": 91,
+            "29": 91
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.CRC.CRC16::HashCore(System.Byte[],System.Int32,System.Int32)": {
+          "Lines": {
+            "32": 84,
+            "34": 84,
+            "35": 84,
+            "36": 84,
+            "40": 84,
+            "41": 84,
+            "42": 1090,
+            "43": 419,
+            "44": 419,
+            "45": 419,
+            "46": 419,
+            "47": 419,
+            "49": 84,
+            "50": 84,
+            "51": 84
+          },
+          "Branches": [
+            {
+              "Line": 42,
+              "Offset": 74,
+              "EndOffset": 33,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 419
+            },
+            {
+              "Line": 42,
+              "Offset": 74,
+              "EndOffset": 76,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 84
+            }
+          ]
+        },
+        "System.Byte[] ZModem.CRC.CRC16::HashFinal()": {
+          "Lines": {
+            "54": 84,
+            "56": 84,
+            "57": 84,
+            "58": 84
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.CRC.CRC16::.ctor()": {
+          "Lines": {
+            "12": 7,
+            "16": 7,
+            "17": 7,
+            "19": 7,
+            "22": 7,
+            "23": 7
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.CRC.CRC16::.cctor()": {
+          "Lines": {
+            "9": 1,
+            "10": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/c/git/zmodem-dotnet-standard/src/ZModem/CRC/CRC32.cs": {
+      "ZModem.CRC.CRC32": {
+        "System.Void ZModem.CRC.CRC32::Initialize()": {
+          "Lines": {
+            "30": 51,
+            "32": 51,
+            "33": 51
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.CRC.CRC32::HashCore(System.Byte[],System.Int32,System.Int32)": {
+          "Lines": {
+            "36": 44,
+            "38": 44,
+            "39": 44,
+            "40": 44,
+            "44": 44,
+            "45": 44,
+            "46": 570,
+            "47": 219,
+            "48": 438,
+            "49": 219,
+            "50": 219,
+            "51": 219,
+            "53": 44,
+            "54": 44,
+            "55": 44
+          },
+          "Branches": [
+            {
+              "Line": 46,
+              "Offset": 71,
+              "EndOffset": 33,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 219
+            },
+            {
+              "Line": 46,
+              "Offset": 71,
+              "EndOffset": 73,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 44
+            }
+          ]
+        },
+        "System.Byte[] ZModem.CRC.CRC32::HashFinal()": {
+          "Lines": {
+            "58": 44,
+            "60": 44,
+            "61": 44,
+            "62": 44
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.CRC.CRC32::.ctor()": {
+          "Lines": {
+            "16": 7,
+            "20": 7,
+            "21": 7,
+            "23": 7,
+            "26": 7,
+            "27": 7
+          },
+          "Branches": []
+        },
+        "System.Void ZModem.CRC.CRC32::.cctor()": {
+          "Lines": {
+            "12": 1,
+            "13": 1,
+            "14": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/c/git/zmodem-dotnet-standard/src/ZModem/CRC/CRCHelper.cs": {
+      "ZModem.CRC.CRCHelper": {
+        "System.Int32 ZModem.CRC.CRCHelper::Compute16BitHeader(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC16)": {
+          "Lines": {
+            "8": 41,
+            "9": 41,
+            "11": 41,
+            "12": 41
+          },
+          "Branches": []
+        },
+        "System.UInt32 ZModem.CRC.CRCHelper::Compute32BitHeader(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC32)": {
+          "Lines": {
+            "15": 1,
+            "16": 1,
+            "18": 1,
+            "19": 1
+          },
+          "Branches": []
+        },
+        "System.Byte[] ZModem.CRC.CRCHelper::Compute16BitHeaderAsArray(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC16)": {
+          "Lines": {
+            "22": 82,
+            "23": 82,
+            "24": 82,
+            "25": 82,
+            "26": 82,
+            "27": 82,
+            "28": 82,
+            "30": 82,
+            "32": 82,
+            "34": 82,
+            "35": 82
+          },
+          "Branches": []
+        },
+        "System.Byte[] ZModem.CRC.CRCHelper::Compute32BitHeaderAsArray(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,ZModem.CRC.CRC32)": {
+          "Lines": {
+            "38": 42,
+            "39": 42,
+            "40": 42,
+            "41": 42,
+            "42": 42,
+            "43": 42,
+            "44": 42,
+            "46": 42,
+            "48": 42,
+            "50": 42,
+            "51": 42
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/c/git/zmodem-dotnet-standard/src/ZModem/CRC/CRCUtils.cs": {
+      "ZModem.CRC.CRCUtils": {
+        "System.UInt16[] ZModem.CRC.CRCUtils::GenerateLookupTable(System.UInt16)": {
+          "Lines": {
+            "6": 8,
+            "8": 8,
+            "9": 8,
+            "10": 8,
+            "13": 2045,
+            "14": 2046,
+            "16": 36425,
+            "17": 16177,
+            "18": 16127,
+            "19": 8115,
+            "20": 8114,
+            "21": 8109,
+            "23": 16192,
+            "24": 8135,
+            "25": 8136,
+            "26": 8135,
+            "27": 8135,
+            "29": 8145,
+            "30": 8138,
+            "31": 8139,
+            "32": 16193,
+            "34": 2047,
+            "36": 2047,
+            "37": 2045,
+            "38": 2045,
+            "40": 8,
+            "42": 8
+          },
+          "Branches": [
+            {
+              "Line": 38,
+              "Offset": 121,
+              "EndOffset": 15,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 2045
+            },
+            {
+              "Line": 16,
+              "Offset": 101,
+              "EndOffset": 26,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 16143
+            },
+            {
+              "Line": 18,
+              "Offset": 37,
+              "EndOffset": 39,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 8113
+            },
+            {
+              "Line": 18,
+              "Offset": 37,
+              "EndOffset": 50,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 16184
+            },
+            {
+              "Line": 23,
+              "Offset": 64,
+              "EndOffset": 66,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 8133
+            },
+            {
+              "Line": 23,
+              "Offset": 64,
+              "EndOffset": 80,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 8143
+            },
+            {
+              "Line": 16,
+              "Offset": 101,
+              "EndOffset": 103,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 2047
+            },
+            {
+              "Line": 38,
+              "Offset": 121,
+              "EndOffset": 123,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 8
+            }
+          ]
+        },
+        "System.UInt32[] ZModem.CRC.CRCUtils::GenerateLookupTable(System.UInt32)": {
+          "Lines": {
+            "45": 8,
+            "47": 8,
+            "48": 8,
+            "49": 8,
+            "52": 2044,
+            "53": 2045,
+            "55": 36618,
+            "56": 16236,
+            "57": 16270,
+            "58": 8171,
+            "59": 8161,
+            "60": 8160,
+            "62": 16295,
+            "63": 8160,
+            "64": 8160,
+            "65": 8161,
+            "66": 8158,
+            "68": 8173,
+            "69": 8169,
+            "70": 8167,
+            "71": 16252,
+            "73": 2046,
+            "75": 2046,
+            "76": 2046,
+            "77": 2046,
+            "79": 8,
+            "81": 8
+          },
+          "Branches": [
+            {
+              "Line": 77,
+              "Offset": 127,
+              "EndOffset": 15,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 2043
+            },
+            {
+              "Line": 55,
+              "Offset": 97,
+              "EndOffset": 26,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 16303
+            },
+            {
+              "Line": 57,
+              "Offset": 37,
+              "EndOffset": 39,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 8162
+            },
+            {
+              "Line": 57,
+              "Offset": 37,
+              "EndOffset": 49,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 16287
+            },
+            {
+              "Line": 62,
+              "Offset": 63,
+              "EndOffset": 65,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 8159
+            },
+            {
+              "Line": 62,
+              "Offset": 63,
+              "EndOffset": 77,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 8167
+            },
+            {
+              "Line": 55,
+              "Offset": 97,
+              "EndOffset": 99,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 2045
+            },
+            {
+              "Line": 77,
+              "Offset": 127,
+              "EndOffset": 129,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 8
+            }
+          ]
+        },
+        "System.UInt32 ZModem.CRC.CRCUtils::Reverse(System.UInt32)": {
+          "Lines": {
+            "84": 2047,
+            "86": 2046,
+            "87": 2046,
+            "88": 2046,
+            "89": 2046,
+            "90": 2046,
+            "91": 2046,
+            "92": 2047,
+            "94": 2047
+          },
+          "Branches": []
+        },
+        "System.UInt16 ZModem.CRC.CRCUtils::Reverse(System.UInt16)": {
+          "Lines": {
+            "97": 1,
+            "99": 1,
+            "100": 1,
+            "101": 1,
+            "102": 1,
+            "103": 1,
+            "104": 1,
+            "105": 1,
+            "107": 1
+          },
+          "Branches": []
+        },
+        "System.Byte ZModem.CRC.CRCUtils::Reverse(System.Byte)": {
+          "Lines": {
+            "110": 2046,
+            "112": 2046,
+            "113": 2046,
+            "114": 2045,
+            "115": 2046,
+            "116": 2046,
+            "117": 2046,
+            "119": 2046
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/c/git/zmodem-dotnet-standard/src/ZModem/Constants.cs": {
+      "ZModem.Constants.Constants": {
+        "System.Void ZModem.Constants.Constants::.cctor()": {
+          "Lines": {
+            "14": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}
