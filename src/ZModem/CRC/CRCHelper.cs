@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ZModem.CRC
 {
@@ -27,11 +28,11 @@ namespace ZModem.CRC
             b[3] = Convert.ToByte(p2);
             b[4] = Convert.ToByte(p3);
 
-            var crc = crcCalculator.ComputeHash(b);
+            var crc = crcCalculator.ComputeHash(b).Reverse().ToArray();
+            // Seems like 16 bit headers need no encoding ¯\_(ツ)_/¯
+            ////var encodedCRC = ZDLEEncoder.EscapeControlCharacters(crc);
 
-            var encodedCRC = ZDLEEncoder.EscapeControlCharacters(crc);
-
-            return encodedCRC;
+            return crc;
         }
 
         public static byte[] Compute32BitHeaderAsArray(int type, int p0, int p1, int p2, int p3, CRC32 crcCalculator)

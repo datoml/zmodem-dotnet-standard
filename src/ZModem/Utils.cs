@@ -54,9 +54,13 @@ namespace ZModem
             sb.Append(p2.ToString("x2"));
             sb.Append(p3.ToString("x2"));
 
-            var crc = CRCHelper.Compute16BitHeader((int)type, p0, p1, p2, p3, crcCalculator);
+            var crc = CRCHelper.Compute16BitHeaderAsArray((int)type, p0, p1, p2, p3, crcCalculator);
 
-            sb.Append(crc.ToString("x4"));
+            foreach (var c in crc)
+            {
+                sb.Append(c.ToString("x2"));
+            }
+
             sb.Append(HexCommonHeaderEnd);
 
             var command = sb.ToString();

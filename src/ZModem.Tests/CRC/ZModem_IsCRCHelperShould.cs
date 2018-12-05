@@ -16,7 +16,7 @@ namespace ZModem.Tests
         }
 
         [Theory]
-        [InlineData(new byte[] { 6, 137 })]
+        [InlineData(new byte[] { 137, 6 })]
         public void Return16BitHeaderChecksumAsByte(byte[] expected)
         {
             var result = CRCHelper.Compute16BitHeaderAsArray((int)HeaderType.ZFILE, 0, 0, 0, 0, CRC16Calculator);
@@ -28,7 +28,7 @@ namespace ZModem.Tests
         }
 
         [Theory]
-        [InlineData(35078)]
+        [InlineData(1673)]
         public void Return16BitHeaderChecksumAsInt(int expected)
         {
             var crc = CRCHelper.Compute16BitHeader((int)HeaderType.ZFILE, 0, 0, 0, 0, CRC16Calculator);

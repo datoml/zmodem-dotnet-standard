@@ -404,12 +404,9 @@ namespace ZModem
         {
             var result = default(bool);
 
-            var arg0 = dataLength & 0xff;
-            var arg1 = (dataLength >> 8) & 0xff;
-            var arg2 = (dataLength >> 16) & 0xff;
-            var arg3 = (dataLength >> 24) & 0xff;
+            Utils.GenerateZModemFileOffset(dataLength, out int p0, out int p1, out int p2, out int p3);
 
-            var zeofCommand = Utils.BuildCommonHexHeader(HeaderType.ZEOF, arg0, arg1, arg2, arg3, crcCalculator);
+            var zeofCommand = Utils.BuildCommonHexHeader(HeaderType.ZEOF, p0, p1, p2, p3, crcCalculator);
 
             // Send command
             var response = SendCommand(zeofCommand, true, HeaderType.ZRINIT);
@@ -472,9 +469,9 @@ namespace ZModem
         /// <returns></returns>
         ResponseHeader SendCommand(string command, bool withResponse = false, HeaderType expectedResponse = HeaderType.None)
         {
-            var commandData = Encoding.ASCII.GetBytes(command);
+            var rawCommand = Encoding.ASCII.GetBytes(command);
 
-            return SendCommand(commandData, withResponse, expectedResponse);
+            return SendCommand(rawCommand, withResponse, expectedResponse);
         }
 
         /// <summary>
